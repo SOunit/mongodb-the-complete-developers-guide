@@ -34,3 +34,11 @@
 ```
 db.passengers.find({}, {name: 1}).pretty()
 ```
+
+- cursor object
+  - find returns cursor object
+  - not all documents, only first 20
+  - cycle through the data
+  - toArray() gives back all data
+  - forEach() is also common approach
+  - pretty() is function on cursor, that's why findOne do not support
