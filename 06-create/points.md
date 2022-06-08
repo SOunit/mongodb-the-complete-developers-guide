@@ -53,6 +53,7 @@
     ```
 
 - Atomicity
+
   - document level atomicity
     - if fail, rollback
   - database - collection - document
@@ -62,3 +63,11 @@
       - 2, success
       - 3, fail - rollback
       - 4, success / fail / stop - depends on `insert order`
+
+- Import data
+  - work only in local `mongod` server
+  - mongodb can import `json` data
+  - `mongoimport`
+    ```
+    mongoimport data.json -d dbName -c collectionName --jsonArray --drop
+    ```
