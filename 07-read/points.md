@@ -156,3 +156,18 @@ db.sales.find({
     ```
     db.movies.find({genres: {$size: 3}})
     ```
+
+  - $all
+
+    - to get all data, order do not matter
+    - this returns data with order match
+
+    ```
+    db.movies.find({genres: ["Drama", "Anime"]})
+    ```
+
+    - this returns all data, no order check
+
+    ```
+    db.movies.find({ genres: { $all: ["Anime", "Drama"] } })
+    ```
