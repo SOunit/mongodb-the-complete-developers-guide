@@ -11,5 +11,5 @@
 - import data
 
   ```
-  mongoimport users.json -d movieData -c users --jsonArray --drop
+  mongoimport sales.json -d movieData -c sales --jsonArray --drop
   ```
