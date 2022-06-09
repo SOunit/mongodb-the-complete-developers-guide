@@ -1,3 +1,18 @@
+# summary
+
+- what you can do
+
+  - filter
+    - include
+    - equal
+    - condition
+    - array / nest
+  - skip
+  - limit
+  - sort
+
+# points
+
 - structure
 
   - methods
@@ -103,7 +118,7 @@ db.users.find({age: {$type: "number"}})
 
 - $expr
 
-  - compare values in a document
+  - to compare 2 values in a document
     - add $ to field to reference
 
 ```
@@ -216,5 +231,61 @@ db.sales.find({
     - -1 - descending
 
   ```
-  db.movies.find({"rating.average": 1, runtime: -1}).sort()
+  db.movies.find().sort({"rating.average": 1, runtime: -1})
+  ```
+
+  - skip
+
+    - mongoDB automatically execute command in right order
+      - sort - skip - limit
+
+    ```
+    db.movies.find().sort({"rating.average": 1, runtime: -1}).skip(10)
+    ```
+
+  - limit
+    ```
+    db.movies.find().sort({"rating.average": 1, runtime: -1}).skip(10).limit(10)
+    ```
+
+- projection
+
+  ```
+  db.movies.find({}, {name: 1, genres: 1, runtime: 1, rating: 1, _id: 0, "schedule.time": 1})
+  ```
+
+  - get highest rate
+
+  ```
+  db.movies.find({}, {name: 1, genres: 1, runtime: 1, rating: 1}).sort({"rating.average": -1}).limit(1)
+  ```
+
+- projection of array
+
+  ```
+  db.movies.find({genres: "Drama"}, {"genres.$": 1})
+  ```
+
+  - complex case
+
+  ```
+  db.movies.find({genres: "Drama"}, {genres: {$elemMatch: {$eq: "Horror"}}})
+  ```
+
+  ```
+  db.movies.find({"rating.average": {$gt: 9}}, {genres: {$elemMatch: {$eq: "Horror"}}})
+  ```
+
+- $slice
+
+  - get first 2 item in array
+
+  ```
+  db.movies.find({"rating.average": {$gt: 9}}, {genres: {$slice: 2}, name: 1})
+  ```
+
+  - skip 1 and get 2 item in array
+
+  ```
+  db.movies.find({"rating.average": {$gt: 9}}, {genres: {$slice: [1, 2]}, name: 1})
   ```
