@@ -71,7 +71,7 @@
   db.movies.find({genres: ["Drama"]})
   ```
 
-- and
+- $and
 
 ```
 db.movies.find({
@@ -82,11 +82,77 @@ $and: [{ "rating.average": { $gt: 9 } }, { genres: "Drama" }],
 - count
 
 ```
-db.movies.countDocuments({$and: [{genres: "Drama"}]})
+db.movies.countDocuments({ genres: "Drama" });
 ```
 
 - exists - if data exists
 
 ```
+
 db.users.find({age: {$exists: true, $ne: null}})
+
 ```
+
+- $type
+
+```
+
+db.users.find({age: {$type: "number"}})
+
+```
+
+- $expr
+
+  - compare values in a document
+    - add $ to field to reference
+
+```
+
+db.sales.find({$expr: {$gt: ["$volume", "$target"]}})
+
+```
+
+- complex sample
+
+```
+db.sales.find({
+  $expr: {
+    $gt: [
+      {
+        $cond: {
+          if: { $gte: ["$volume", 190] },
+          then: { $subtract: ["$volume", 30] },
+          else: "$volume",
+        },
+      },
+      "$target",
+    ],
+  },
+});
+```
+
+- array query
+
+  - major search
+
+    - test data
+
+    ```
+    {name: "Jack", hobbies: [{title: "Sports", frequency: 3}]}
+    ```
+
+    - db.users.find({"hobbies.title": "Sports"})
+      - return data
+      - this search data including hobbies.title is "Sports"
+    - db.users.find({hobbies: {title: "Sports"}})
+      - return no data
+      - this search exact match, hobbies = {title: "Sports"}
+
+  - $size
+
+    - exact match only, no $gt or $lt
+    - sample
+
+    ```
+    db.movies.find({genres: {$size: 3}})
+    ```

@@ -14,7 +14,7 @@
 
 - show dbs / show databases
 - use flightsshow
-- show tables
+- show tables / / show collections
 
 # crete database
 

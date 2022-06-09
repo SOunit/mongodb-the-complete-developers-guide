@@ -1,3 +1,14 @@
-db.movies.find({
-  $and: [{ "rating.average": { $gt: 9 } }, { genres: "Drama" }],
+db.sales.find({
+  $expr: {
+    $gt: [
+      {
+        $cond: {
+          if: { $gte: ["$volume", 190] },
+          then: { $subtract: ["$volume", 30] },
+          else: "$volume",
+        },
+      },
+      "$target",
+    ],
+  },
 });
