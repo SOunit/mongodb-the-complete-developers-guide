@@ -171,3 +171,22 @@ db.sales.find({
     ```
     db.movies.find({ genres: { $all: ["Anime", "Drama"] } })
     ```
+
+  - $elemMatch
+
+    - this return `partial match` / `or match`
+    - `title = Sports` or `frequency >= 2`
+
+    ```
+    db.users.find({
+    $and: [{ "hobbies.title": "Sports" }, { "hobbies.frequency": { $gte: 2 } }],
+    });
+    ```
+
+    - this return match data only
+
+    ```
+    db.users.find({
+    hobbies: { $elemMatch: { title: "Sports", frequency: { $gte: 3 } } },
+    });
+    ```

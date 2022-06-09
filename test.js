@@ -1,14 +1,7 @@
-db.sales.find({
-  $expr: {
-    $gt: [
-      {
-        $cond: {
-          if: { $gte: ["$volume", 190] },
-          then: { $subtract: ["$volume", 30] },
-          else: "$volume",
-        },
-      },
-      "$target",
-    ],
-  },
+db.users.find({
+  $and: [{ "hobbies.title": "Sports" }, { "hobbies.frequency": { $gte: 2 } }],
+});
+
+db.users.find({
+  hobbies: { $elemMatch: { title: "Sports", frequency: { $gte: 3 } } },
 });
