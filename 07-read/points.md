@@ -172,21 +172,49 @@ db.sales.find({
     db.movies.find({ genres: { $all: ["Anime", "Drama"] } })
     ```
 
-  - $elemMatch
+- $elemMatch
 
-    - this return `partial match` / `or match`
-    - `title = Sports` or `frequency >= 2`
+  - this return `partial match` / `or match`
+  - `title = Sports` or `frequency >= 2`
 
-    ```
-    db.users.find({
-    $and: [{ "hobbies.title": "Sports" }, { "hobbies.frequency": { $gte: 2 } }],
-    });
-    ```
+  ```
+  db.users.find({
+  $and: [{ "hobbies.title": "Sports" }, { "hobbies.frequency": { $gte: 2 } }],
+  });
+  ```
 
-    - this return match data only
+  - this return match data only
 
-    ```
-    db.users.find({
-    hobbies: { $elemMatch: { title: "Sports", frequency: { $gte: 3 } } },
-    });
-    ```
+  ```
+  db.users.find({
+  hobbies: { $elemMatch: { title: "Sports", frequency: { $gte: 3 } } },
+  });
+  ```
+
+- cursor
+
+  - mongodb uses js syntax and can save cursor in variable
+
+  ```
+  const dataCursor = db.movies.find()
+  ```
+
+  - get all data
+
+  ```
+  dataCursor.forEach(doc => {printjson(doc)})
+  ```
+
+  - check if next exist
+
+  ```
+  dataCursor.hasNext()
+  ```
+
+  - sort with cursor
+    - 1 - ascending
+    - -1 - descending
+
+  ```
+  db.movies.find({"rating.average": 1, runtime: -1}).sort()
+  ```
