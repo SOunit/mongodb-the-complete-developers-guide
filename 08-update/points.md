@@ -133,3 +133,62 @@ db.users.updateOne(
 );
 
 ```
+
+- insert multiple data into array in document with sort
+
+```
+db.users.updateOne(
+  { name: "Maria" },
+  {
+    $push: {
+      hobbies: {
+        $each: [
+          { title: "Good Wine", frequency: 1 },
+          { title: "Watch Movies", frequency: 2 },
+        ],
+        $sort: { frequency: -1 },
+      },
+    },
+  }
+);
+
+```
+
+- remove data from array
+
+```
+db.users.updateOne(
+  { name: "Maria" },
+  {
+    $pull: {
+      hobbies: { title: "Good food" },
+    },
+  }
+);
+```
+
+- remove last element
+
+```
+db.users.updateOne(
+  { name: "Maria" },
+  {
+    $pop: { hobbies: 1 },
+  }
+);
+
+```
+
+- insert data into array in document / no duplicate data
+
+```
+db.users.updateOne(
+  { name: "Maria" },
+  {
+    $addToSet: {
+      hobbies: { title: "Good Wine", frequency: 1 },
+    },
+  }
+);
+
+```
