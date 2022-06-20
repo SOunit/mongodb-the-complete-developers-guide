@@ -1,3 +1,5 @@
+# samples
+
 - $set update, not replace
 - replace find() method to updateMany()
 - $set updates multiple fields
@@ -83,13 +85,13 @@ db.users.updateMany(
 );
 ```
 
-- update matched array element
+- update one matched array element
 
   ```
    db.users.updateMany({hobbies: {$elemMatch: {title: "Sports", frequency: {$gte: 3}}}}, {$set: {"hobbies.$.highFrequency": true}})
   ```
 
-- update matched array elements
+- update multiple matched array elements
 
   ```
   db.users.updateMany({totalAge: {$gt: 10}}, {$inc: {"hobbies.$[].frequency": 1}})
