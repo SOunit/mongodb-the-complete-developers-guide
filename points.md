@@ -25,7 +25,3 @@ mongoexport --db movieData --collection users -o users.json --jsonArray
 mongoimport sales.json -d movieData -c sales --jsonArray --drop
 
 ```
-
-```
-
-```

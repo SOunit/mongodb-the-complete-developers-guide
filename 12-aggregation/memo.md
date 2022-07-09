@@ -51,80 +51,95 @@
 
   - $project
 
-        - like select
-        - can used in find too
-        - $concat
+    - like select
+    - can used in find too
+    - $concat
 
-          - concat hardcode string
+      - concat hardcode string
 
-          ```
-          db.persons.aggregate([
-            {
-              $project: {
-                _id: 0,
-                gender: 1,
-                fullName: { $concat: ["hello", "world"] },
-                },
+      ```
+      db.persons.aggregate([
+        {
+          $project: {
+            _id: 0,
+            gender: 1,
+            fullName: { $concat: ["hello", "world"] },
             },
-          ]).pretty();
-          ```
+        },
+      ]).pretty();
+      ```
 
-          - concat
+      - concat
 
-          ```
+      ```
 
-          db.persons.aggregate([
-            {
-              $project: {
-                  _id: 0,
-                  gender: 1,
-                  fullName: { $concat: ["$name.first", " ", "$name.last"] },
-              },
-            },
-          ]).pretty();
+      db.persons.aggregate([
+        {
+          $project: {
+              _id: 0,
+              gender: 1,
+              fullName: { $concat: ["$name.first", " ", "$name.last"] },
+          },
+        },
+      ]).pretty();
 
-          ```
+      ```
 
-          - uppercase
-          ```
+      - uppercase
 
-          db.persons.aggregate([
-            {
-              $project: {
-                  _id: 0,
-                  gender: 1,
-                  fullName: { $concat: [{$toUpper: "$name.first"}, " ", {$toUpper: "$name.last"}] },
-              },
-            },
-          ]).pretty();
+      ```
 
-          ```
+      db.persons.aggregate([
+        {
+          $project: {
+              _id: 0,
+              gender: 1,
+              fullName: { $concat: [{$toUpper: "$name.first"}, " ", {$toUpper: "$name.last"}] },
+          },
+        },
+      ]).pretty();
 
-          - uppercase first character only
-          ```
-          db.persons.aggregate([
-              {
-                $project: {
-                  _id: 0,
-                  gender: 1,
-                  fullName: {
-                    $concat: [
-                      { $toUpper: { $substrCP: ["$name.first", 0, 1] } },
+      ```
+
+      - uppercase first character only
+
+      ```
+      db.persons.aggregate([
+          {
+            $project: {
+              _id: 0,
+              gender: 1,
+              fullName: {
+                $concat: [
+                  { $toUpper: { $substrCP: ["$name.first", 0, 1] } },
+                  {
+                    $substrCP: [
+                      "$name.first",
+                      1,
                       {
-                        $substrCP: [
-                          "$name.first",
-                          1,
-                          {
-                            $subtract: [{ $strLenCP: "$name.first" }, 1],
-                          },
-                        ],
+                        $subtract: [{ $strLenCP: "$name.first" }, 1],
                       },
-                      " ",
-                      { $toUpper: "$name.last" },
                     ],
                   },
-                },
+                  " ",
+                  { $toUpper: "$name.last" },
+                ],
               },
-            ]).pretty();
+            },
+          },
+        ]).pretty();
 
-          ```
+      ```
+
+- group / push
+
+```
+db.friends.aggregate([
+  {
+    $group: { _id: { age: "$age" }, allHobbies: { $push: "$hobbies" } },
+  },
+]);
+
+```
+
+- $unwind

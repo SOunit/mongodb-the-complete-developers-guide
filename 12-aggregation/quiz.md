@@ -5,7 +5,5 @@
   - concatenate firstName, lastName
   - Uppercase firstName, lastName
   - Uppercase first character only
-    - get first character and turn into upper case
-    - get characters left
-      - remove first character
-      - get length
+- array
+  - group document and hold all data in array

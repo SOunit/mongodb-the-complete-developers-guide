@@ -1,3 +1,5 @@
+# look relation lecture to use $lookup
+
 - access nested data using "$data.nested"
 
 - uppercase:
@@ -37,5 +39,32 @@ db.persons.aggregate([
   ```
 
 - group vs. project
+
   - group make multiple documents to 1 document
   - project change 1 document to 1 document with diff values
+
+- unwind
+
+  - flatten the document by repeating the document
+  - before
+
+  ```
+  {
+    name: "Max",
+    hobbies: ["a", "b"]
+  }
+  ```
+
+  - after
+
+  ```
+  {
+    name: "Max",
+    hobbies: ["a"]
+  }
+
+    {
+    name: "Max",
+    hobbies: ["b"]
+  }
+  ```
