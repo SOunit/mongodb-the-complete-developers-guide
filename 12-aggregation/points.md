@@ -25,3 +25,17 @@ db.persons.aggregate([
   { $project: {} },
 ]);
 ```
+
+- convert
+
+  - can set onError
+  - can set onNull
+  - shortcut cannot set handling code
+
+  ```
+  {$convert: {input: "$location.coordinates.longitude", to: "double", onError: 0, onNull: 0}}
+  ```
+
+- group vs. project
+  - group make multiple documents to 1 document
+  - project change 1 document to 1 document with diff values

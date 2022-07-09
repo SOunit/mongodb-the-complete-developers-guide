@@ -1,3 +1,7 @@
+// FIXME: fix code like this to avoid syntax error
+// db.person.aggregate
+// ).pretty()
+
 db.persons
   .aggregate([
     {
@@ -5,11 +9,27 @@ db.persons
         _id: 0,
         name: 1,
         email: 1,
+        birthDate: { $convert: { input: "$dob.date", to: "date" } },
+        age: "$dob.age",
         location: {
           type: "Point",
           coordinates: [
-            "$location.coordinates.longitude",
-            "$location.coordinates.latitude",
+            {
+              $convert: {
+                input: "$location.coordinates.longitude",
+                to: "double",
+                onError: 0.0,
+                onNull: 0.0,
+              },
+            },
+            {
+              $convert: {
+                input: "$location.coordinates.latitude",
+                to: "double",
+                onError: 0.0,
+                onNull: 0.0,
+              },
+            },
           ],
         },
       },
@@ -19,6 +39,8 @@ db.persons
         name: 1,
         gender: 1,
         email: 1,
+        birthDate: 1,
+        age: 1,
         location: 1,
         fullName: {
           $concat: [
